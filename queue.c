@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
 
 #include "queue.h"
 
@@ -124,7 +123,18 @@ int q_size(struct list_head *head)
 /* Delete the middle node in queue */
 bool q_delete_mid(struct list_head *head)
 {
-    // https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+    if (!head || list_empty(head))
+        return false;
+
+    struct list_head *front = head->next, *tail = head->prev;
+
+    while (front != tail && front->next != tail) {
+        front = front->next;
+        tail = tail->prev;
+    }
+
+    list_del(tail);
+    q_release_element(list_entry(tail, element_t, list));
     return true;
 }
 
@@ -132,6 +142,7 @@ bool q_delete_mid(struct list_head *head)
 bool q_delete_dup(struct list_head *head)
 {
     // https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+
     return true;
 }
 
